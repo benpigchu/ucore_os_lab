@@ -1,0 +1,95 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "lab1",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab1/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab1",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab2",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab2/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab2",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab3",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab3/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab3",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab4",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab4/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab4",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab5",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab5/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab5",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab6",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab6/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab6",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab7",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab7/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab7",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		},{
+			"name": "lab8",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/labcodes/lab8/bin/kernel",
+			"miDebuggerServerAddress": "localhost:1234",
+			"MIMode": "gdb",
+			"cwd": "${workspaceRoot}/labcodes/lab8",
+			"windows": {
+				"miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe"
+			}
+		}
+	],
+	"compounds": []
+}
