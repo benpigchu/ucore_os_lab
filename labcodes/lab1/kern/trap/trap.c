@@ -34,7 +34,7 @@ static struct pseudodesc idt_pd = {
 /* idt_init - initialize IDT to each of the entry points in kern/trap/vectors.S */
 void
 idt_init(void) {
-     /* LAB1 YOUR CODE : STEP 2 */
+     /* LAB1 2015011322 : STEP 2 */
      /* (1) Where are the entry addrs of each Interrupt Service Routine (ISR)?
       *     All ISR's entry addrs are stored in __vectors. where is uintptr_t __vectors[] ?
       *     __vectors[] is in kern/trap/vector.S which is produced by tools/vector.c
@@ -46,6 +46,19 @@ idt_init(void) {
       *     You don't know the meaning of this instruction? just google it! and check the libs/x86.h to know more.
       *     Notice: the argument of lidt is idt_pd. try to find it!
       */
+    extern uintptr_t __vectors[];
+    for(uint32_t i=0;i<sizeof(idt)/sizeof(struct gatedesc);i++){
+        switch(i){
+        case T_SWITCH_TOK:
+        case T_SYSCALL:
+            SETGATE(idt[i],0,GD_KTEXT,__vectors[i],DPL_USER);
+            break;
+        default:
+            SETGATE(idt[i],0,GD_KTEXT,__vectors[i],DPL_KERNEL);
+            break;
+        }
+    }
+    lidt(&idt_pd);
 }
 
 static const char *
@@ -134,6 +147,34 @@ print_regs(struct pushregs *regs) {
     cprintf("  eax  0x%08x\n", regs->reg_eax);
 }
 
+void
+switch_to_user(struct trapframe *tf){
+    if(tf->tf_cs!=USER_CS){
+        static struct trapframe mocktf;
+        mocktf=*tf;
+        mocktf.tf_cs=USER_CS;
+        mocktf.tf_ds=USER_DS;
+        mocktf.tf_es=USER_DS;
+        mocktf.tf_ss=USER_DS;
+        mocktf.tf_esp=&(tf->tf_esp);
+        mocktf.tf_eflags|=FL_IOPL_MASK;
+        ((uintptr_t*)tf)[-1]=&mocktf;
+    }
+}
+
+void
+switch_to_kernel(struct trapframe *tf){
+    if(tf->tf_cs!=KERNEL_CS){
+        tf->tf_cs=KERNEL_CS;
+        tf->tf_ds=KERNEL_DS;
+        tf->tf_es=KERNEL_DS;
+        tf->tf_eflags&=(~FL_IOPL_MASK);
+        struct trapframe* targettf=(struct trapframe*)(tf->tf_esp-(sizeof(struct trapframe)-8));
+        memmove(targettf,tf,sizeof(struct trapframe)-8);
+        ((uintptr_t*)tf)[-1]=targettf;
+    }
+}
+
 /* trap_dispatch - dispatch based on what type of trap occurred */
 static void
 trap_dispatch(struct trapframe *tf) {
@@ -141,12 +182,16 @@ trap_dispatch(struct trapframe *tf) {
 
     switch (tf->tf_trapno) {
     case IRQ_OFFSET + IRQ_TIMER:
-        /* LAB1 YOUR CODE : STEP 3 */
+        /* LAB1 2015011322 : STEP 3 */
         /* handle the timer interrupt */
         /* (1) After a timer interrupt, you should record this event using a global variable (increase it), such as ticks in kern/driver/clock.c
          * (2) Every TICK_NUM cycle, you can print some info using a funciton, such as print_ticks().
          * (3) Too Simple? Yes, I think so!
          */
+        ticks++;
+        if(ticks%TICK_NUM==0){
+            print_ticks();
+        }
         break;
     case IRQ_OFFSET + IRQ_COM1:
         c = cons_getc();
@@ -155,11 +200,16 @@ trap_dispatch(struct trapframe *tf) {
     case IRQ_OFFSET + IRQ_KBD:
         c = cons_getc();
         cprintf("kbd [%03d] %c\n", c, c);
+        //LAB1 CHALLENGE 2 : 2015011322
+        if(c=='3'){switch_to_user(tf);}
+        if(c=='0'){switch_to_kernel(tf);}
         break;
-    //LAB1 CHALLENGE 1 : YOUR CODE you should modify below codes.
+    //LAB1 CHALLENGE 1 : 2015011322 you should modify below codes.
     case T_SWITCH_TOU:
+        switch_to_user(tf);
+        break;
     case T_SWITCH_TOK:
-        panic("T_SWITCH_** ??\n");
+        switch_to_kernel(tf);
         break;
     case IRQ_OFFSET + IRQ_IDE1:
     case IRQ_OFFSET + IRQ_IDE2:
