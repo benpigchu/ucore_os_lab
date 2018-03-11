@@ -4,9 +4,10 @@
 		"*.vue": "vue",
 		"*.wpy": "vue",
 		".env": "ini",
-		"istream": "c",
-		"type_traits": "c",
-		"utility": "c",
-		"xlocnum": "c"
+		"system_error": "c",
+		"xutility": "c",
+		"xlocale": "c",
+		"iosfwd": "c",
+		"xstring": "c"
 	}
 }
