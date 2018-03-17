@@ -224,7 +224,7 @@ TARGETS: $(TARGETS)
 
 QEMUOPTS = -hda $(UCOREIMG) -drive file=$(SWAPIMG),media=disk,cache=writeback
 
-.PHONY: qemu qemu-nox debug debug-nox
+.PHONY: qemu qemu-nox debug debug-nox debug-server debug-client
 qemu-mon: $(UCOREIMG) $(SWAPIMG)
 	$(V)$(QEMU)  -no-reboot -monitor stdio $(QEMUOPTS) -serial null
 qemu: $(UCOREIMG) $(SWAPIMG)
@@ -244,6 +244,12 @@ debug-nox: $(UCOREIMG) $(SWAPIMG)
 	$(V)$(QEMU) -S -s -serial mon:stdio $(QEMUOPTS) -nographic &
 	$(V)sleep 2
 	$(V)$(TERMINAL) -e "$(GDB) -q -x tools/gdbinit"
+
+debug-server: $(UCOREIMG)
+	$(V)$(QEMU) -S -s -serial mon:stdio -hda $< -nographic
+
+debug-client: $(UCOREIMG)
+	gdb -q -x tools/gdbinit
 
 .PHONY: grade touch
 
@@ -284,5 +290,5 @@ tags:
 	@echo TAGS ALL
 	$(V)rm -f cscope.files cscope.in.out cscope.out cscope.po.out tags
 	$(V)find . -type f -name "*.[chS]" >cscope.files
-	$(V)cscope -bq 
+	$(V)cscope -bq
 	$(V)ctags -L cscope.files
