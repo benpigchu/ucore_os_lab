@@ -8,6 +8,8 @@
 		"xutility": "c",
 		"xlocale": "c",
 		"iosfwd": "c",
-		"xstring": "c"
+		"xstring": "c",
+		"xiosbase": "c",
+		"xmemory0": "c"
 	}
 }
