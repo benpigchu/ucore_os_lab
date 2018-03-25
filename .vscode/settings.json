@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"*.make": "makefile",
+		"*.vue": "vue",
+		"*.wpy": "vue",
+		".env": "ini",
+		"xmemory0": "c",
+		"sync.h": "c",
+		"xutility": "cpp"
+	}
+}
